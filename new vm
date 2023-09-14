@@ -1,0 +1,9 @@
+Set-PowerCLIConfiguration -InvalidCertificateAction Ignore
+connect-viserver –server vcenter-ber1ckzh12.ionoscloud.tools
+
+$vms = Import-Csv -Path C:\vcenter\Book1.csv
+foreach ($vm in $vms) {
+Write-Warning "Creating $($vm.Name) in $($vm.cluster)"
+New-VM -Name $vm.Name -Datastore $vm.Datastore -Template $vm.Template  -ResourcePool $vm.Cluster -Location $vm.Folder 
+Start-VM -VM $vm.Name
+}
